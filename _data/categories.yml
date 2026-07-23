@@ -1,0 +1,16 @@
+- name: Stud
+  description: Exposed-card games built around stud dealing streets.
+- name: Draw
+  description: Closed-card games with one or more discard-and-replace rounds.
+- name: Community
+  description: Games that combine private cards with a shared board.
+- name: Match-the-pot
+  description: High-variance games in which losing entrants may replenish the pot.
+- name: Pass & arrangement
+  description: Games built around passing cards or arranging multiple hands.
+- name: Target & banking
+  description: Point-target and table-banked games outside standard hand rankings.
+- name: Mixed rotation
+  description: Structured rotations that combine several poker disciplines.
+- name: Progressive & elimination
+  description: Games with advancing pots, side pots, or elimination mechanics.

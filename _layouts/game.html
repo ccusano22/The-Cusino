@@ -1,0 +1,77 @@
+---
+layout: default
+---
+{% capture suit_symbol %}{% case page.suit %}{% when 'hearts' %}&hearts;{% when 'diamonds' %}&diams;{% when 'clubs' %}&clubs;{% else %}&spades;{% endcase %}{% endcapture %}
+{% assign suit_tone = 'black' %}
+{% if page.suit == 'hearts' or page.suit == 'diamonds' %}{% assign suit_tone = 'red' %}{% endif %}
+<article class="game-page">
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="{{ '/' | relative_url }}">All games</a>
+    <span aria-hidden="true">/</span>
+    <span>{{ page.category }}</span>
+    <span aria-hidden="true">/</span>
+    <span aria-current="page">{{ page.title }}</span>
+  </nav>
+
+  <header class="game-hero">
+    <div class="game-hero__card game-hero__card--{{ suit_tone }}" aria-hidden="true">
+      <span class="game-hero__number">{{ page.order }}</span>
+      <span class="game-hero__suit">{{ suit_symbol }}</span>
+    </div>
+    <div class="game-hero__copy">
+      <p class="eyebrow">{{ page.catalog_group }} &middot; {{ page.category }}</p>
+      <h1>{{ page.title }}</h1>
+      <p class="game-hero__summary">{{ page.summary }}</p>
+      <div class="tag-row">
+        {% for trait in page.traits %}<span class="tag">{{ trait }}</span>{% endfor %}
+      </div>
+    </div>
+  </header>
+
+  <section class="facts-grid" aria-label="Game facts">
+    <div><h2>Players</h2><p>{{ page.players }}</p></div>
+    <div><h2>Family</h2><p>{{ page.family }}</p></div>
+    <div><h2>Pot format</h2><p>{{ page.pot_format }}</p></div>
+    <div><h2>Wild, kill, or pay cards</h2><p>{{ page.special_cards }}</p></div>
+  </section>
+
+  <div class="game-content-grid">
+    <aside class="game-sidebar" aria-label="Dealer notes">
+      <section class="callout callout--dealer">
+        <h2>Call before the deal</h2>
+        <p>{{ page.call_before_deal }}</p>
+      </section>
+      <section class="callout callout--tip">
+        <h2>Game tip</h2>
+        <p>{{ page.tip }}</p>
+      </section>
+      <a class="back-link" href="{{ '/' | relative_url }}">&larr; Back to all games</a>
+    </aside>
+
+    <div class="prose game-rules">
+      {{ content }}
+    </div>
+  </div>
+
+  {% assign related_games = site.games | where: 'category', page.category | sort: 'order' %}
+  {% assign related_count = 0 %}
+  <section class="related-games" aria-labelledby="related-heading">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Keep browsing</p>
+        <h2 id="related-heading">More {{ page.category | downcase }} games</h2>
+      </div>
+    </div>
+    <div class="related-links">
+      {% for game in related_games %}
+        {% if game.url != page.url and related_count < 3 %}
+          <a href="{{ game.url | relative_url }}">
+            <span>{{ game.title }}</span>
+            <small>{{ game.players }} players</small>
+          </a>
+          {% assign related_count = related_count | plus: 1 %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  </section>
+</article>

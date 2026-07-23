@@ -1,0 +1,35 @@
+{% assign game = include.game %}
+{% capture suit_symbol %}{% case game.suit %}{% when 'hearts' %}&hearts;{% when 'diamonds' %}&diams;{% when 'clubs' %}&clubs;{% else %}&spades;{% endcase %}{% endcapture %}
+{% assign suit_tone = 'black' %}
+{% if game.suit == 'hearts' or game.suit == 'diamonds' %}{% assign suit_tone = 'red' %}{% endif %}
+<a
+  class="game-card game-card--{{ suit_tone }}"
+  href="{{ game.url | relative_url }}"
+  data-game-card
+  data-category="{{ game.category | escape }}"
+  data-group="{{ game.catalog_group | escape }}"
+  data-search="{{ game.title | append: ' ' | append: game.category | append: ' ' | append: game.family | append: ' ' | append: game.players | append: ' ' | append: game.summary | append: ' ' | append: game.special_cards | append: ' ' | downcase | strip_html | escape }}"
+  aria-label="View rules for {{ game.title | escape }}"
+>
+  <span class="game-card__corner" aria-hidden="true">
+    <strong>{{ game.order }}</strong>
+    <span>{{ suit_symbol }}</span>
+  </span>
+  <span class="game-card__group">{{ game.catalog_group }}</span>
+  <span class="game-card__body">
+    <span class="game-card__category">{{ game.category }}</span>
+    <strong class="game-card__title">{{ game.title }}</strong>
+    <span class="game-card__family">{{ game.family }}</span>
+    <span class="game-card__summary">{{ game.summary }}</span>
+  </span>
+  <span class="game-card__meta">
+    <span><b>Players</b>{{ game.players }}</span>
+    {% if game.traits %}
+      <span class="tag-row" aria-label="Game traits">
+        {% for trait in game.traits limit: 3 %}<span class="tag">{{ trait }}</span>{% endfor %}
+      </span>
+    {% endif %}
+  </span>
+  <span class="game-card__action">View rules <span aria-hidden="true">&rarr;</span></span>
+  <span class="game-card__suit game-card__suit--bottom" aria-hidden="true">{{ suit_symbol }}</span>
+</a>

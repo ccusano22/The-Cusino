@@ -1,0 +1,68 @@
+---
+layout: default
+title: Browse games
+description: Browse 39 dealer's choice and pass-the-deck poker games as searchable cards, then open complete rules and directions for any game.
+catalog_script: true
+---
+{% assign games = site.games | sort: 'order' %}
+<section class="catalog-hero">
+  <div class="catalog-hero__inner">
+    <p class="eyebrow">Pass the deck. Call the game.</p>
+    <h1>Find the right poker game for the table.</h1>
+    <p>Browse {{ games | size }} dealer's choice games. Every card opens a dedicated rules page with player count, variations, special cards, dealer call, and a practical tip.</p>
+    <div class="hero-actions">
+      <a class="button button--primary" href="#game-catalog">Browse the catalog</a>
+      <a class="button button--secondary" href="{{ '/house-rules/' | relative_url }}">Set house rules first</a>
+    </div>
+  </div>
+</section>
+
+<section class="catalog-shell" id="game-catalog" aria-labelledby="catalog-heading">
+  <div class="section-heading section-heading--catalog">
+    <div>
+      <p class="eyebrow">Game index</p>
+      <h2 id="catalog-heading">Choose a card</h2>
+    </div>
+    <p><a href="{{ '/catalog/' | relative_url }}">Open the complete single-page catalog</a></p>
+  </div>
+
+  <div class="catalog-controls" role="search" aria-label="Filter poker games">
+    <label class="control control--search" for="game-search">
+      <span>Search games</span>
+      <input id="game-search" type="search" placeholder="Try wild cards, stud, split pot..." autocomplete="off">
+    </label>
+    <label class="control" for="category-filter">
+      <span>Game type</span>
+      <select id="category-filter">
+        <option value="">All game types</option>
+        {% for item in site.data.categories %}
+          <option value="{{ item.name | escape }}">{{ item.name }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <div class="catalog-controls__buttons">
+      <button class="button button--quiet" id="clear-filters" type="button">Clear</button>
+      <button class="button button--primary" id="random-game" type="button">Deal me a game</button>
+    </div>
+  </div>
+
+  <div class="catalog-status" aria-live="polite">
+    <strong id="result-count">{{ games | size }} games</strong>
+    <span>Click any card for complete rules.</span>
+  </div>
+
+  <div class="game-grid" id="game-grid">
+    {% for game in games %}
+      {% include game-card.html game=game %}
+    {% endfor %}
+  </div>
+
+  <div class="empty-state" id="empty-state" hidden>
+    <h3>No games match those filters.</h3>
+    <p>Clear the filters or try a broader term such as draw, stud, wild, or split pot.</p>
+  </div>
+
+  <noscript>
+    <p class="noscript-note">Search and filtering require JavaScript. All game cards and rules pages remain available without it.</p>
+  </noscript>
+</section>

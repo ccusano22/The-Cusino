@@ -1,0 +1,36 @@
+title: "Dealer's Choice Poker Catalog"
+description: "A searchable catalog of dealer's choice and pass-the-deck poker games, with complete rules, variations, player counts, and practical tips."
+lang: en-US
+url: ""
+baseurl: ""
+markdown: kramdown
+permalink: pretty
+strict_front_matter: true
+
+collections:
+  games:
+    output: true
+    permalink: /games/:name/
+
+defaults:
+  - scope:
+      path: ""
+      type: games
+    values:
+      layout: game
+  - scope:
+      path: ""
+    values:
+      layout: default
+
+kramdown:
+  input: GFM
+  hard_wrap: false
+
+exclude:
+  - scripts
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - .github
